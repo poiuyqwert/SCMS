@@ -1,0 +1,209 @@
+# unitdef.txt file (External Definition)
+# This is a PyAI version of UNITDEF.INI made by Gold Dragon, used by ScAIEdit III
+#
+# DON'T EDIT THIS FILE UNLESS YOU KNOW WHAT YOU'RE DOING
+#
+# If you need to add, modify or delete entries so it can fit your needs, do not modify the
+#  original file. Make copies, then modify them and put the same directory as your ai script.
+#
+# Remember: When you compile using External Definition files, the variables are not saved. To
+#           decompile with the variables intact, you must have your modified External Definition
+#           file too.
+
+# Terran military units
+MILITARY marine = 0
+MILITARY ghost = 1
+MILITARY vulture = 2
+MILITARY goliath = 3
+MILITARY siege_tank = 5
+MILITARY wraith = 8
+MILITARY science_vessel = 9
+MILITARY dropship = 11
+MILITARY battlecruiser = 12
+MILITARY nuclear_missile = 14
+MILITARY firebat = 32
+MILITARY medic = 34
+MILITARY valkyrie = 58
+
+# Zerg military units
+MILITARY zergling = 37
+MILITARY hydralisk = 38
+MILITARY ultralisk = 39
+MILITARY mutalisk = 43
+MILITARY guardian = 44
+MILITARY queen = 45
+MILITARY defiler = 46
+MILITARY scourge = 47
+MILITARY infested_terran = 50
+MILITARY devourer = 62
+MILITARY lurker = 103
+
+# Protoss military units
+MILITARY corsair = 60
+MILITARY dark_templar = 61
+MILITARY dark_archon = 63
+MILITARY zealot = 65
+MILITARY dragoon = 66
+MILITARY high_templar = 67
+MILITARY archon = 68
+MILITARY shuttle = 69
+MILITARY scout = 70
+MILITARY arbiter = 71
+MILITARY carrier = 72
+MILITARY reaver = 83
+MILITARY observer = 84
+
+
+# Terran buildings
+BUILDING scv = 7
+BUILDING command_center = 106
+BUILDING comsat_station = 107
+BUILDING nuclear_silo = 108
+BUILDING supply_depot = 109
+BUILDING refinery = 110
+BUILDING barracks = 111
+BUILDING academy = 112
+BUILDING factory = 113
+BUILDING starport = 114
+BUILDING control_tower = 115
+BUILDING science_facility = 116
+BUILDING covert_ops = 117
+BUILDING physics_lab = 118
+BUILDING machine_shop = 120
+BUILDING engineering_bay = 122
+BUILDING armory = 123
+BUILDING missile_turret = 124
+BUILDING bunker = 125
+
+# Zerg buildings
+BUILDING drone = 41
+BUILDING overlord = 42
+BUILDING infested_command_center = 130
+BUILDING hatchery = 131
+BUILDING lair = 132
+BUILDING hive = 133
+BUILDING nydus_canal = 134
+BUILDING hydralisk_den = 135
+BUILDING defiler_mound = 136
+BUILDING greater_spire = 137
+BUILDING queen_nest = 138
+BUILDING evolution_chamber = 139
+BUILDING ultralisk_cavern = 140
+BUILDING spire = 141
+BUILDING spawning_pool = 142
+BUILDING creep_colony = 143
+BUILDING spore_colony = 144
+BUILDING sunken_colony = 146
+BUILDING extractor = 149
+
+# Protoss buildings
+BUILDING probe = 64
+BUILDING nexus = 154
+BUILDING robotics_facility = 155
+BUILDING pylon = 156
+BUILDING assimilator = 157
+BUILDING observatory = 159
+BUILDING gateway = 160
+BUILDING photon_cannon = 162
+BUILDING citadel_of_adun = 163
+BUILDING cybernetics_core = 164
+BUILDING templar_archives = 165
+BUILDING forge = 166
+BUILDING stargate = 167
+BUILDING fleet_beacon = 169
+BUILDING arbiter_tribunal = 170
+BUILDING robotics_support_bay = 171
+BUILDING shield_battery = 172
+
+
+# Terran upgrades
+UPGRADE t_infantry_armor = 0
+UPGRADE t_vehicle_plating = 1
+UPGRADE t_ship_plating = 2
+UPGRADE t_infantry_weapon = 7
+UPGRADE t_vehicle_weapon = 8
+UPGRADE t_ship_weapon = 9
+UPGRADE marine_range = 16
+UPGRADE vulture_speed = 17
+UPGRADE science_vessel_mana = 19
+UPGRADE ghost_sight = 20
+UPGRADE ghost_mana = 21
+UPGRADE wraith_mana = 22
+UPGRADE battlecruiser_mana = 23
+UPGRADE medic_mana = 51
+UPGRADE goliath_range = 54
+
+# Zerg upgrades
+UPGRADE z_carapace = 3
+UPGRADE z_flyer_carapace = 4
+UPGRADE z_melee_attack = 10
+UPGRADE z_missile_attack = 11
+UPGRADE z_flyer_attack = 12
+UPGRADE overlord_capacity = 24
+UPGRADE overlord_sight = 25
+UPGRADE overlord_speed = 26
+UPGRADE zergling_speed = 27
+UPGRADE zergling_attack = 28
+UPGRADE hydralisk_speed = 29
+UPGRADE hydralisk_range = 30
+UPGRADE queen_mana = 31
+UPGRADE defiler_mana = 32
+UPGRADE ultralisk_armor = 52
+UPGRADE ultralisk_speed = 53
+
+# Protoss upgrades
+UPGRADE p_armor = 5
+UPGRADE p_plating = 6
+UPGRADE p_ground_weapon = 13
+UPGRADE p_air_weapon = 14
+UPGRADE p_plasma_shield = 15
+UPGRADE dragoon_range = 33
+UPGRADE zealot_speed = 34
+UPGRADE scarab_damage = 35
+UPGRADE reaver_capacity = 36
+UPGRADE shuttle_speed = 37
+UPGRADE observer_sight = 38
+UPGRADE observer_speed = 39
+UPGRADE templar_mana = 40
+UPGRADE scout_sight = 41
+UPGRADE scout_speed = 42
+UPGRADE carrier_capacity = 43
+UPGRADE arbiter_mana = 44
+UPGRADE corsair_mana = 47
+UPGRADE dark_archon_mana = 49
+
+
+# Terran tech
+TECHNOLOGY stim_packs = 0
+TECHNOLOGY lockdown = 1
+TECHNOLOGY emp_shockwave = 2
+TECHNOLOGY spider_mines = 3
+TECHNOLOGY siege_mode = 5
+TECHNOLOGY defensive_matrix = 6
+TECHNOLOGY irradiate = 7
+TECHNOLOGY yamato_gun = 8
+TECHNOLOGY cloaking_field = 9
+TECHNOLOGY personnel_cloaking = 10
+TECHNOLOGY restoration = 24
+TECHNOLOGY optical_flare = 30
+
+# Zerg tech
+TECHNOLOGY burrowing = 11
+TECHNOLOGY infestation = 12
+TECHNOLOGY spawn_broodling = 13
+TECHNOLOGY dark_swarm = 14
+TECHNOLOGY plague = 15
+TECHNOLOGY consume = 16
+TECHNOLOGY ensnare = 17
+TECHNOLOGY parasite = 18
+TECHNOLOGY lurker_aspect = 32
+
+# Protoss tech
+TECHNOLOGY psionic_storm = 19
+TECHNOLOGY hallucination = 20
+TECHNOLOGY recall = 21
+TECHNOLOGY stasis_field = 22
+TECHNOLOGY disruption_web = 25
+TECHNOLOGY mind_control = 27
+TECHNOLOGY feedback = 29
+TECHNOLOGY maelstrom = 31
