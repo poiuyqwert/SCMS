@@ -1,0 +1,2 @@
+# SCMS
+StarCraft Modding Suite
