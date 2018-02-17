@@ -87,8 +87,8 @@ void PCX::open_data(const u8 *buffer, int size, bool specialPalette) {
 	this->palette = new Palette((RGB *)(paletteStart+1), 256);
 	this->pixels.pixels = new u8[width*height];
 	memset(this->pixels.pixels, 0, sizeof(u8)*width*height);
-	this->pixels.width = width;
-	this->pixels.height = height;
+	this->pixels.size.width = width;
+	this->pixels.size.height = height;
 	u8 *pixel = this->pixels.pixels;
 	const u8 *cmd = buffer + sizeof(PCX_HEADER);
 	while (cmd < paletteStart && pixel-this->pixels.pixels < width*height) {
@@ -165,14 +165,14 @@ Palette* PCX::get_palette(unsigned int specialPaletteRow) {
 		SCMSError err("Internal", "PCX file was not loaded as a special palette");
 		throw err;
 	}
-	if (specialPaletteRow >= this->pixels.height) {
+	if (specialPaletteRow >= this->pixels.size.height) {
 		SCMSError err("Internal", "Special palette row out of bounds");
 		throw err;
 	}
-	RGB colors[this->pixels.width];
-	memset(colors, 0, sizeof(RGB)*this->pixels.width);
-	for (int x = 0; x < this->pixels.width; x++) {
-		colors[x] = this->palette->get_color(this->pixels.pixels[x+specialPaletteRow*this->pixels.width]);
+	RGB colors[this->pixels.size.width];
+	memset(colors, 0, sizeof(RGB)*this->pixels.size.width);
+	for (int x = 0; x < this->pixels.size.width; x++) {
+		colors[x] = this->palette->get_color(this->pixels.pixels[x+specialPaletteRow*this->pixels.size.width]);
 	}
-	return new Palette(colors, this->pixels.width);
+	return new Palette(colors, this->pixels.size.width);
 }

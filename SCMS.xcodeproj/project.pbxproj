@@ -197,7 +197,15 @@
 		A042EC7D1C40BDDE0056F4E5 /* TBL.h in Headers */ = {isa = PBXBuildFile; fileRef = A042EB581C3B52880056F4E5 /* TBL.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A042EC7E1C40BDDE0056F4E5 /* Tileset.h in Headers */ = {isa = PBXBuildFile; fileRef = A042EB5B1C3B52880056F4E5 /* Tileset.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A042EC7F1C40BDDE0056F4E5 /* TRG.h in Headers */ = {isa = PBXBuildFile; fileRef = A042EB5E1C3B52880056F4E5 /* TRG.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A0461F2E2033C54C00AE93C6 /* UnitsDAT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0461F2C2033C54C00AE93C6 /* UnitsDAT.cpp */; };
+		A0461F2F2033E18400AE93C6 /* Geometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0B6039F1DFD317E00F6D7D1 /* Geometry.cpp */; };
+		A0461F302033E19A00AE93C6 /* UnitsDAT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0461F2C2033C54C00AE93C6 /* UnitsDAT.cpp */; };
+		A0461F312033E19D00AE93C6 /* UnitsDAT.h in Headers */ = {isa = PBXBuildFile; fileRef = A0461F2D2033C54C00AE93C6 /* UnitsDAT.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A0461F332035308800AE93C6 /* units.dat in CopyFiles */ = {isa = PBXBuildFile; fileRef = A0461F322035301C00AE93C6 /* units.dat */; };
+		A07052192027813F0013C883 /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = A0B603A01DFD317E00F6D7D1 /* Geometry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0AACFDF1034D5210082384A /* ByteCodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0AACFDE1034D5210082384A /* ByteCodeHandler.cpp */; };
+		A0B603A11DFD317E00F6D7D1 /* Geometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0B6039F1DFD317E00F6D7D1 /* Geometry.cpp */; };
+		A0B603A31DFDE5C900F6D7D1 /* tunit.pcx in CopyFiles */ = {isa = PBXBuildFile; fileRef = A0B603A21DFDE52100F6D7D1 /* tunit.pcx */; };
 		E141CB8910052914003C96DC /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E141CB8810052914003C96DC /* Exception.cpp */; };
 		E141CCAD10055E20003C96DC /* Pack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E141CCAC10055E20003C96DC /* Pack.cpp */; };
 		E18140C61006950C009DC0EB /* Logging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18140C51006950C009DC0EB /* Logging.cpp */; };
@@ -211,6 +219,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				A0461F332035308800AE93C6 /* units.dat in CopyFiles */,
+				A0B603A31DFDE5C900F6D7D1 /* tunit.pcx in CopyFiles */,
 				A042EB3F1C3A49110056F4E5 /* SFmpq.dylib in CopyFiles */,
 				A042EAE61C3A26EA0056F4E5 /* badlands.cv5 in CopyFiles */,
 				A042EAE71C3A26EA0056F4E5 /* badlands.grp in CopyFiles */,
@@ -367,8 +377,14 @@
 		A042EBEC1C3B74430056F4E5 /* CHKSectionUnknown.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CHKSectionUnknown.cpp; sourceTree = "<group>"; };
 		A042EBED1C3B74430056F4E5 /* CHKSectionUnknown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHKSectionUnknown.h; sourceTree = "<group>"; };
 		A042EBFD1C40BB030056F4E5 /* libSCMS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSCMS.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0461F2C2033C54C00AE93C6 /* UnitsDAT.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UnitsDAT.cpp; sourceTree = "<group>"; };
+		A0461F2D2033C54C00AE93C6 /* UnitsDAT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnitsDAT.h; sourceTree = "<group>"; };
+		A0461F322035301C00AE93C6 /* units.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = units.dat; sourceTree = "<group>"; };
 		A0AACFDD1034D5210082384A /* ByteCodeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteCodeHandler.h; sourceTree = "<group>"; };
 		A0AACFDE1034D5210082384A /* ByteCodeHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ByteCodeHandler.cpp; sourceTree = "<group>"; };
+		A0B6039F1DFD317E00F6D7D1 /* Geometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Geometry.cpp; sourceTree = "<group>"; };
+		A0B603A01DFD317E00F6D7D1 /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
+		A0B603A21DFDE52100F6D7D1 /* tunit.pcx */ = {isa = PBXFileReference; lastKnownFileType = file; path = tunit.pcx; sourceTree = "<group>"; };
 		E141CB8710052914003C96DC /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
 		E141CB8810052914003C96DC /* Exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
 		E141CCAB10055E20003C96DC /* Pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pack.h; sourceTree = "<group>"; };
@@ -432,6 +448,7 @@
 		A02309CE14949C7D00606754 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A0461F322035301C00AE93C6 /* units.dat */,
 				A042EADF1C3A26E10056F4E5 /* badlands.cv5 */,
 				A042EAE01C3A26E10056F4E5 /* badlands.grp */,
 				A042EAE11C3A26E10056F4E5 /* badlands.vf4 */,
@@ -448,6 +465,7 @@
 				A02309DE149857A300606754 /* tfontgam.pcx */,
 				A03FDEC71C35FB7300B99135 /* marine.grp */,
 				A03FDEC91C36415800B99135 /* Units.pal */,
+				A0B603A21DFDE52100F6D7D1 /* tunit.pcx */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -476,6 +494,7 @@
 		A042EB401C3B52880056F4E5 /* File Handlers */ = {
 			isa = PBXGroup;
 			children = (
+				A0461F2B2033C52300AE93C6 /* DAT */,
 				A042EB411C3B52880056F4E5 /* AIBIN */,
 				A042EB441C3B52880056F4E5 /* BMP */,
 				A042EB471C3B52880056F4E5 /* CHK */,
@@ -673,6 +692,15 @@
 			path = Sections;
 			sourceTree = "<group>";
 		};
+		A0461F2B2033C52300AE93C6 /* DAT */ = {
+			isa = PBXGroup;
+			children = (
+				A0461F2D2033C54C00AE93C6 /* UnitsDAT.h */,
+				A0461F2C2033C54C00AE93C6 /* UnitsDAT.cpp */,
+			);
+			path = DAT;
+			sourceTree = "<group>";
+		};
 		A0AACFDC1034D4ED0082384A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -688,6 +716,8 @@
 				A0AACFDE1034D5210082384A /* ByteCodeHandler.cpp */,
 				A03FDEC01C35DE7900B99135 /* Images.h */,
 				A03FDEDE1C36F46C00B99135 /* Images.cpp */,
+				A0B603A01DFD317E00F6D7D1 /* Geometry.h */,
+				A0B6039F1DFD317E00F6D7D1 /* Geometry.cpp */,
 				A03FDEEA1C383F8E00B99135 /* Types.h */,
 				A042EADE1C39CAAE0056F4E5 /* BroodWar.h */,
 			);
@@ -720,6 +750,7 @@
 				A042EC4C1C40BDDA0056F4E5 /* CHK.h in Headers */,
 				A042EC4D1C40BDDA0056F4E5 /* CHKRequirements.h in Headers */,
 				A042EC4E1C40BDDA0056F4E5 /* CHKSection.h in Headers */,
+				A0461F312033E19D00AE93C6 /* UnitsDAT.h in Headers */,
 				A042EC4F1C40BDDA0056F4E5 /* CHKTile.h in Headers */,
 				A042EC501C40BDDA0056F4E5 /* CHKSections.h in Headers */,
 				A042EC511C40BDDA0056F4E5 /* CHKSectionUnknown.h in Headers */,
@@ -770,6 +801,7 @@
 				A042EC7E1C40BDDE0056F4E5 /* Tileset.h in Headers */,
 				A042EC7F1C40BDDE0056F4E5 /* TRG.h in Headers */,
 				A042EC421C40BD8C0056F4E5 /* Exception.h in Headers */,
+				A07052192027813F0013C883 /* Geometry.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -801,8 +833,8 @@
 				A042EBF91C40BB030056F4E5 /* Sources */,
 				A042EBFA1C40BB030056F4E5 /* Frameworks */,
 				A042EBFB1C40BB030056F4E5 /* Headers */,
-				A0724DF41C43385300513E88 /* Run Script */,
-				A0724DF51C435BB800513E88 /* ShellScript */,
+				A0724DF41C43385300513E88 /* Setup Framework */,
+				A0724DF51C435BB800513E88 /* Update SCMap */,
 			);
 			buildRules = (
 			);
@@ -844,27 +876,28 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A0724DF41C43385300513E88 /* Run Script */ = {
+		A0724DF41C43385300513E88 /* Setup Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
+			name = "Setup Framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "ORIG=\"$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\"\nLIB_REAL=\"$BUILT_PRODUCTS_DIR/libSCMS.framework/Versions/1/libSCMS\"\nLIB_LINK=\"$BUILT_PRODUCTS_DIR/libSCMS.framework/libSCMS\"\nHEADERS_REAL=\"$BUILT_PRODUCTS_DIR/libSCMS.framework/Versions/1/Headers\"\nHEADERS_LINK=\"$BUILT_PRODUCTS_DIR/libSCMS.framework/Headers\"\nCURRENT_REAL=\"$BUILT_PRODUCTS_DIR/libSCMS.framework/Versions/1\"\nCURRENT_LINK=\"$BUILT_PRODUCTS_DIR/libSCMS.framework/Versions/Current\"\n\ncp \"$ORIG\" \"$LIB_REAL\"\nchmod +x \"$LIB_REAL\"\nif [ ! -e \"$LIB_LINK\" ]\nthen\n    ln -s \"$LIB_REAL\" \"$LIB_LINK\"\nfi\nif [ ! -e \"$HEADERS_LINK\" ]\nthen\n    ln -s \"$HEADERS_REAL\" \"$HEADERS_LINK\"\nfi\nif [ ! -e \"$CURRENT_LINK\" ]\nthen\n    ln -s \"$CURRENT_REAL\" \"$CURRENT_LINK\"\nfi\nfor filename in \"$HEADERS_REAL\"/*.h; do\n    chflags uchg \"$filename\"\ndone";
 		};
-		A0724DF51C435BB800513E88 /* ShellScript */ = {
+		A0724DF51C435BB800513E88 /* Update SCMap */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Update SCMap";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -883,6 +916,7 @@
 				A042EBD51C3B56920056F4E5 /* CHKSectionTECS.cpp in Sources */,
 				E141CB8910052914003C96DC /* Exception.cpp in Sources */,
 				A042EBCA1C3B56920056F4E5 /* CHKSectionMRGN.cpp in Sources */,
+				A0461F2E2033C54C00AE93C6 /* UnitsDAT.cpp in Sources */,
 				A042EBD21C3B56920056F4E5 /* CHKSectionSPRP.cpp in Sources */,
 				A042EB621C3B52880056F4E5 /* FNT.cpp in Sources */,
 				A042EBDC1C3B56920056F4E5 /* CHKSectionUNIT.cpp in Sources */,
@@ -915,6 +949,7 @@
 				A042EBD31C3B56920056F4E5 /* CHKSectionSTR.cpp in Sources */,
 				A042EB661C3B52880056F4E5 /* TBL.cpp in Sources */,
 				A042EB721C3B550D0056F4E5 /* CHKSectionVER.cpp in Sources */,
+				A0B603A11DFD317E00F6D7D1 /* Geometry.cpp in Sources */,
 				E1F19B471014F8DE002C7BD9 /* Lexer.cpp in Sources */,
 				A042EBE21C3B56920056F4E5 /* CHKSectionUPUS.cpp in Sources */,
 				A042EBDE1C3B56920056F4E5 /* CHKSectionUPGR.cpp in Sources */,
@@ -979,6 +1014,7 @@
 				A042EC2A1C40BD820056F4E5 /* CHKSectionUPUS.cpp in Sources */,
 				A042EC2B1C40BD820056F4E5 /* CHKSectionMRGN.cpp in Sources */,
 				A042EC2C1C40BD820056F4E5 /* CHKSectionTRIG.cpp in Sources */,
+				A0461F302033E19A00AE93C6 /* UnitsDAT.cpp in Sources */,
 				A042EC2D1C40BD820056F4E5 /* CHKSectionMBRF.cpp in Sources */,
 				A042EC2E1C40BD820056F4E5 /* CHKSectionSPRP.cpp in Sources */,
 				A042EC2F1C40BD820056F4E5 /* CHKSectionFORC.cpp in Sources */,
@@ -996,6 +1032,7 @@
 				A042EC3B1C40BD830056F4E5 /* FNT.cpp in Sources */,
 				A042EC3C1C40BD830056F4E5 /* GRP.cpp in Sources */,
 				A042EC3D1C40BD830056F4E5 /* Palette.cpp in Sources */,
+				A0461F2F2033E18400AE93C6 /* Geometry.cpp in Sources */,
 				A042EC3E1C40BD830056F4E5 /* PCX.cpp in Sources */,
 				A042EC3F1C40BD830056F4E5 /* TBL.cpp in Sources */,
 				A042EC401C40BD830056F4E5 /* Tileset.cpp in Sources */,

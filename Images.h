@@ -9,18 +9,25 @@
 #pragma once
 
 #include "Types.h"
+#include "Geometry.h"
+
 
 struct Pixels {
 	u8 *pixels;
-	int width, height;
+	Size<u32> size;
 	
 	Pixels()
-		: pixels(nullptr),width(0),height(0) {}
-	Pixels(int width, int height, u8 pixel = 0);
-	Pixels(u8 *pixels, int width, int height)
-		: pixels(pixels),width(width),height(height) {}
+		: pixels(nullptr),size({0,0}) {}
+	Pixels(Size<u32> size, u8 pixel = 0);
+	Pixels(u8 *pixels, Size<u32> size)
+		: pixels(pixels),size(size) {}
 	
-	void paste(Pixels pixels, int xOffset, int yOffset);
+	void paste(Pixels pixels, Point<s32> offset);
 	void paste(Pixels pixels)
-		{ this->paste(pixels, 0, 0); }
+		{ this->paste(pixels, {0,0}); }
+	
+	u8 get(Point<u32> point)
+		{ return this->pixels[point.y * size.width + point.x]; }
+	void set(Point<u32> point, u8 pixel)
+		{ this->pixels[point.y * size.width + point.x] = pixel; }
 };

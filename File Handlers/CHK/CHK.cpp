@@ -209,7 +209,6 @@ void CHK::open_data(const u8 *buffer, int size) {
 	while (cur-end > sizeof(u32)*2) {
 		u32 sectionID = *(u32 *)cur;
 		cur += sizeof(u32);
-		printf("%.4s\n", (char *)&sectionID);
 		u32 sectionSize = *(u32 *)cur;
 		cur += sizeof(u32);
 		CHKSection *section = CHK::section_create(sectionID, this, false);
@@ -235,4 +234,8 @@ CHKSection* CHK::get_section(u32 sectionID, bool createIfNeeded, bool checkRequi
 		}
 	}
 	return section;
+}
+
+void CHK::set_section(CHKSection *section) {
+	this->sections[section->sectionID()] = section;
 }

@@ -17,8 +17,7 @@ struct BMP_HEADER {
 };
 
 struct BMP_V3_INFO_HEADER {
-	u32 width;
-	u32 height;
+	Size<u32> size;
 	u16 planes;
 	u16 bitsPerPixel;
 	BMP_COMPRESSION::Enum compression;
@@ -30,22 +29,22 @@ struct BMP_V3_INFO_HEADER {
 };
 #pragma pack(pop)
 
-Pixels BMP::rle8_decompress(const u8 *cmd, int size, int width, int height) {
-	Pixels pixels(width, height);
-	const u8 *end = cmd+size;
+Pixels BMP::rle8_decompress(const u8 *cmd, int length, Size<u32> size) {
+	Pixels pixels(size);
+	const u8 *end = cmd+length;
 	u8 *cur = pixels.pixels;
-	memset(pixels.pixels, 0, width*height);
+	memset(pixels.pixels, 0, size.width*size.height);
 	while (cmd < end) {
 		SCMSLog.error("%02X %02X\n", (unsigned int)cmd[0], (unsigned int)cmd[1]);
 		if (cmd[0] == '\x00') {
 			if (cmd[1] < '\x03') {
 				if (cmd[1] == '\x02') {
-					cur += cur[2]+cur[3]*width;
+					cur += cur[2]+cur[3]*size.width;
 					cmd += 2;
 				} else if (cur[1] == '\x01') {
 					break;
-				} else if ((cur-pixels.pixels)%width) {
-					cur += width-(cur-pixels.pixels)%width;
+				} else if ((cur-pixels.pixels)%size.width) {
+					cur += size.width-(cur-pixels.pixels)%size.width;
 				}
 			} else {
 				SCMSLog.error("\t");
@@ -64,11 +63,11 @@ Pixels BMP::rle8_decompress(const u8 *cmd, int size, int width, int height) {
 	return pixels;
 }
 
-u8* BMP::rle8_compress(Pixels pixels, int &size) {
+u8* BMP::rle8_compress(Pixels pixels, int &length) {
 	bool repeats = false;
-	u8 temp[pixels.width*pixels.height];
+	u8 temp[pixels.size.width*pixels.size.height];
 	u8 *cur = temp;
-	const u8 *chr,*absstart = NULL,*line = pixels.pixels,*end = pixels.pixels+pixels.width*pixels.height;
+	const u8 *chr,*absstart = NULL,*line = pixels.pixels,*end = pixels.pixels+pixels.size.width*pixels.size.height;
 	const u8 *pixel = pixels.pixels;
 	while (pixel < end) {
 		chr = pixel;
@@ -98,7 +97,7 @@ u8* BMP::rle8_compress(Pixels pixels, int &size) {
 			repeats = (pixel-chr) == 2;
 			absstart = chr;
 		}
-		if (!((pixel-line)%pixels.width) && pixel < end) {
+		if (!((pixel-line)%pixels.size.width) && pixel < end) {
 			*(u16*)cur = 0;
 			cur += 2;
 			line = pixel;
@@ -112,9 +111,9 @@ u8* BMP::rle8_compress(Pixels pixels, int &size) {
 	}
 	cur[0] = '\x00';
 	cur[1] = '\x01';
-	size = cur-temp+2;
-	u8 *buffer = new u8[size];
-	memcpy(buffer, temp, size);
+	length = cur-temp+2;
+	u8 *buffer = new u8[length];
+	memcpy(buffer, temp, length);
 	return buffer;
 }
 
@@ -137,8 +136,8 @@ void BMP::open_file(const char *filename) {
 	}
 }
 
-void BMP::open_data(const u8 *buffer, int size) {
-	if (size < sizeof(BMP_HEADER)+sizeof(BMP_V3_INFO_HEADER)+1028) {
+void BMP::open_data(const u8 *buffer, int length) {
+	if (length < sizeof(BMP_HEADER)+sizeof(BMP_V3_INFO_HEADER)+1028) {
 		SCMSError err("Open", "Not enough data to be a valid BMP");
 		throw err;
 	}
@@ -149,7 +148,7 @@ void BMP::open_data(const u8 *buffer, int size) {
 	BMP_HEADER header;
 	BMP_V3_INFO_HEADER infoheader;
 	u32 len;
-	unpack(buffer, size, "<[2cL2sL]L[2l2S6L]", &header, &len, &infoheader);
+	unpack(buffer, length, "<[2cL2sL]L[2l2S6L]", &header, &len, &infoheader);
 	if (len != 40) {
 		SCMSError err("Open", "Unsupported BMP file (unknown BMP info header format)");
 		throw err;
@@ -166,7 +165,7 @@ void BMP::open_data(const u8 *buffer, int size) {
 		SCMSError err("Open", "Unsupported BMP file (unsupported compression type)");
 		throw err;
 	}
-	const u8 *bufferend = (unsigned char*)(buffer+size);
+	const u8 *bufferend = (unsigned char*)(buffer+length);
 	RGB colors[256];
 	const u8 *paletteStart = (unsigned char*)buffer+sizeof(BMP_HEADER)+4+sizeof(BMP_V3_INFO_HEADER);
 	for (int c = 0; c < 256; c++) {
@@ -183,21 +182,21 @@ void BMP::open_data(const u8 *buffer, int size) {
 		throw err;
 	}
 	if (infoheader.compression == BMP_COMPRESSION::NONE) {
-		int width = ((infoheader.width/4)+1)*4;
-		if (infoheader.dataSize != width*infoheader.height) {
+		int width = ((infoheader.size.width/4)+1)*4;
+		if (infoheader.dataSize != width*infoheader.size.height) {
 			delete palette;
 			SCMSError err("Open", "Unsupported BMP file (invalid data size)");
 			throw err;
 		}
-		this->pixels.pixels = new u8[infoheader.width*infoheader.height];
-		for (int n = 0; n < infoheader.height; n++)
-			memcpy(&this->pixels.pixels[infoheader.width*n], &buffer[width*n], infoheader.width);
+		this->pixels.pixels = new u8[infoheader.size.width*infoheader.size.height];
+		for (int n = 0; n < infoheader.size.height; n++)
+			memcpy(&this->pixels.pixels[infoheader.size.width*n], &buffer[width*n], infoheader.size.width);
 	} else {
-		this->pixels = rle8_decompress(buffer, infoheader.dataSize, infoheader.width, infoheader.height);
+		this->pixels = rle8_decompress(buffer, infoheader.dataSize, {infoheader.size.width,infoheader.size.height});
 	}
 	this->palette = palette;
-	this->pixels.width = infoheader.width;
-	this->pixels.height = infoheader.height;
+	this->pixels.size.width = infoheader.size.width;
+	this->pixels.size.height = infoheader.size.height;
 }
 
 void BMP::save_file(const char *filename, BMP_COMPRESSION::Enum compression) {
@@ -214,12 +213,12 @@ void BMP::save_file(const char *filename, BMP_COMPRESSION::Enum compression) {
 }
 
 u8* BMP::save_data(int &size, BMP_COMPRESSION::Enum compression) {
-	int len = 0,dataoffset = sizeof(BMP_HEADER)+4+sizeof(BMP_V3_INFO_HEADER)+1024,padwidth = this->pixels.width;
+	int len = 0,dataoffset = sizeof(BMP_HEADER)+4+sizeof(BMP_V3_INFO_HEADER)+1024,padwidth = this->pixels.size.width;
 	if (padwidth%4)
 		padwidth += 4-padwidth%4;
 	u8 *data,*compressed;
 	if (compression == BMP_COMPRESSION::NONE) {
-		size = dataoffset+padwidth*this->pixels.height;
+		size = dataoffset+padwidth*this->pixels.size.height;
 	} else {
 		compressed = rle8_compress(this->pixels, len);
 		size = dataoffset+len;
@@ -227,7 +226,7 @@ u8* BMP::save_data(int &size, BMP_COMPRESSION::Enum compression) {
 	data = new u8[size];
 	memset(data, 0, size);
 	BMP_HEADER header = {'B','M', (u32)size, 0,0, (u32)dataoffset};
-	BMP_V3_INFO_HEADER infoheader = {(u32)this->pixels.width,(u32)this->pixels.height, 1,8, compression, (u32)(size-dataoffset),0,0,0,0};
+	BMP_V3_INFO_HEADER infoheader = {(u32)this->pixels.size.width,(u32)this->pixels.size.height, 1,8, compression, (u32)(size-dataoffset),0,0,0,0};
 	pack(data, size, "<[2cL2sL]L[2l2S6L]", &header, 40, &infoheader);
 	RGB colors[256];
 	for (int c = 0; c < 256; c++) {
@@ -250,8 +249,8 @@ u8* BMP::save_data(int &size, BMP_COMPRESSION::Enum compression) {
 	memcpy(data+dataoffset-1024, pal, palsize);
 	delete [] pal;
 	if (compression == BMP_COMPRESSION::NONE) {
-		for (int n = this->pixels.height; n > 0; n--) {
-			memcpy(data+dataoffset+padwidth*(this->pixels.height-n), this->pixels.pixels+this->pixels.width*(n-1), this->pixels.width);
+		for (int n = this->pixels.size.height; n > 0; n--) {
+			memcpy(data+dataoffset+padwidth*(this->pixels.size.height-n), this->pixels.pixels+this->pixels.size.width*(n-1), this->pixels.size.width);
 		}
 	} else {
 		memcpy(data+dataoffset, compressed, len);

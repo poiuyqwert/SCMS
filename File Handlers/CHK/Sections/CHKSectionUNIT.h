@@ -46,4 +46,10 @@ public:
 	
 	void load_data(const u8 *data, u32 size);
 	u8* save_data(u32 &size);
+	
+	unsigned long count()
+		{ return this->units.size(); }
+	
+	CHKUnit get_unit(int n)
+		{ return this->units[n]; }
 };

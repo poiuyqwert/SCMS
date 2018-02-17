@@ -30,10 +30,16 @@ public:
 		Green,
 		PaleYellow,
 		Tan,
-		Azure,
+		DarkAqua,
+		PaleGreen,
+		BlueishGrey,
+		PaleYellow2,
+		Cyan,
 		
-		Neutral = Azure
+		Neutral = DarkAqua
 	};
+	
+	static u8 DEFAULTS[SC::Player::COUNT_PLAYABLE];
 	
 	CHKSectionCOLR(CHK *chk);
 	
@@ -42,4 +48,9 @@ public:
 	
 	void load_data(const u8 *data, u32 size);
 	u8* save_data(u32 &size);
+	
+	u8 get_color(int player)
+		{ return this->colors[player]; }
+	void set_color(int player, u8 color)
+		{ this->colors[player] = color; }
 };

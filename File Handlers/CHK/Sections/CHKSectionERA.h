@@ -41,4 +41,6 @@ public:
 	
 	u16 get_tileset()
 		{ return this->tileset; }
+	void set_tileset(u16 tileset)
+		{ this->tileset = tileset; }
 };

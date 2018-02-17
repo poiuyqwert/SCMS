@@ -19,42 +19,39 @@
 
 #pragma pack(push, 1)
 struct FNT_CHR_HEADER {
-	u8 width;
-	u8 height;
-	u8 xOffset;
-	u8 yOffset;
+	Size<u8> size;
+	Point<u8> offset;
 };
 #pragma pack(pop)
 
 class FNT {
-	u8 lowIndex, width, height;
+	u8 lowIndex;
+	Size<u8> size;
 	vector<u8 *> letters;
 public:
 	FNT()
-		: lowIndex(0),width(0),height(0) {}
-	FNT(vector<u8 *> letters, u8 width, u8 height, u8 low = 32);
+		: lowIndex(0),size({0,0}) {}
+	FNT(vector<u8 *> letters, Size<u8> size, u8 low = 32);
 	FNT(const char *filename)
 		{ this->open_file(filename); }
-	FNT(u8 *buffer, int size)
-		{ this->open_data(buffer, size); }
+	FNT(u8 *buffer, int length)
+		{ this->open_data(buffer, length); }
 	~FNT()
 		{ this->close(); }
 
 	static FNT_CHR_HEADER letter_dims(Pixels letter);
 
 	void open_file(const char *filename);
-	void open_data(const u8 *buffer, int size);
+	void open_data(const u8 *buffer, long long length);
 	void export_file(const char *filename, Palette *palette);
 	BMP* export_data(Palette *palette);
 	void save_file(const char *filename);
-	u8* save_data(int &size);
+	u8* save_data(int &length);
 
 	u8 get_low()
 		{ return this->lowIndex; }
-	u8 get_width()
-		{ return this->width; }
-	u8 get_height()
-		{ return this->height; }
+	Size<u8> get_size()
+		{ return this->size; }
 	u8 get_chars()
 		{ return this->letters.size(); }
 	Pixels get_letter(u8 n);

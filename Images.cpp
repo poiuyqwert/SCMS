@@ -12,17 +12,21 @@
 
 using namespace std;
 
-Pixels::Pixels(int width, int height, u8 pixel) {
-	this->pixels = new u8[width * height];
-	memset(pixels, pixel, width*height);
-	this->width = width;
-	this->height = height;
+Pixels::Pixels(Size<u32> size, u8 pixel)
+	: size(size)
+{
+	this->pixels = new u8[size.width*size.height];
+	memset(pixels, pixel, size.width*size.height);
 }
 
-void Pixels::paste(Pixels pixels, int xOffset, int yOffset) {
-	int copyWidth = min(this->width - xOffset, pixels.width);
-	int copyHeight = min(this->height - yOffset, pixels.height);
-	for (int y = 0; y < copyHeight; y++) {
-		memcpy(this->pixels+(y+yOffset)*this->width+xOffset, pixels.pixels+y*pixels.width, copyWidth);
+void Pixels::paste(Pixels other, Point<s32> offset) {
+	Rect<s32,u32> canvas = {{0,0}, size};
+	Rect<s32,u32> to = {offset, other.size};
+	Rect<s32,u32> drawTo = canvas.overlap(to);
+	if (!drawTo.isEmpty()) {
+		Point<s32> drawFrom = drawTo.origin - offset;
+		for (s32 y = 0; y < drawTo.size.height; y++) {
+			memcpy(pixels+(drawTo.origin.y+y)*size.width+drawTo.origin.x, other.pixels+(drawFrom.y+y)*other.size.width+drawFrom.x, drawTo.size.width);
+		}
 	}
 }

@@ -33,4 +33,6 @@ public:
 	
 	u16 get_version()
 		{ return this->version; }
+	void set_version(u16 version)
+		{ this->version = version; }
 };

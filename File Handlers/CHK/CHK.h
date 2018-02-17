@@ -28,9 +28,14 @@ public:
 	void save_file(const char *filename);
 	u8* save_data(int &size);
 	
-	CHKSection* get_section(u32 sectionID, bool createIfNeeded = true, bool checkRequirements = true);
-	template<class T> T* get_section(bool createIfNeeded = true, bool checkRequirements = true) {
+	CHKSection* get_section(u32 sectionID, bool createIfNeeded = false, bool checkRequirements = true);
+	template<class T> T* get_section(bool createIfNeeded = false, bool checkRequirements = true) {
 		CHKSection *section = this->get_section(T::ID, createIfNeeded, checkRequirements);
 		return dynamic_cast<T *>(section);
 	}
+	
+	void set_section(CHKSection *section);
+//	template<class T> void set_section(T *section) {
+//		this->sections[T::ID] = section;
+//	}
 };

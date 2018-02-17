@@ -36,27 +36,25 @@ class BMP {
 	Pixels pixels;
 public:
 	BMP()
-		: palette(NULL)
-		{ pixels.pixels = NULL; pixels.width = 0; pixels.height = 0; }
+		: palette(nullptr)
+		{ pixels.pixels = nullptr; pixels.size = {0,0}; }
 	BMP(const char *filename)
 		{ this->open_file(filename); }
-	BMP(const u8 *buffer, int size)
-		{ this->open_data(buffer, size); }
+	BMP(const u8 *buffer, int length)
+		{ this->open_data(buffer, length); }
 	BMP(Pixels pixels, Palette *palette)
 		{ this->set_pixels(pixels); this->set_palette(palette); }
 	
-	static Pixels rle8_decompress(const u8 *cmd, int size, int width, int height);
-	static u8* rle8_compress(Pixels pixels, int &size);
+	static Pixels rle8_decompress(const u8 *cmd, int length, Size<u32> size);
+	static u8* rle8_compress(Pixels pixels, int &length);
 
 	void open_file(const char *filename);
-	void open_data(const u8 *buffer, int size);
+	void open_data(const u8 *buffer, int length);
 	void save_file(const char *filename, BMP_COMPRESSION::Enum compression = BMP_COMPRESSION::NONE);
-	u8* save_data(int &size, BMP_COMPRESSION::Enum compression = BMP_COMPRESSION::NONE);
+	u8* save_data(int &length, BMP_COMPRESSION::Enum compression = BMP_COMPRESSION::NONE);
 
-	int get_width()
-		{ return this->pixels.width; }
-	int get_height()
-		{ return this->pixels.height; }
+	Size<u32> get_size()
+		{ return this->pixels.size; }
 	Pixels get_pixels()
 		{ return pixels; }
 	void set_pixels(Pixels pixels)

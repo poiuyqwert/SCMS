@@ -33,10 +33,8 @@ public:
 	void save_file(const char *filename);
 	u8* save_data(int &size);
 	
-	int get_width()
-		{ return this->pixels.width; }
-	int get_height()
-		{ return this->pixels.height; }
+	Size<u32> get_size()
+		{ return this->pixels.size; }
 	Pixels get_pixels()
 		{ return this->pixels; }
 	void set_pixels(Pixels pixels)

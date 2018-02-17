@@ -7,134 +7,116 @@
 //
 
 #include "GRP.h"
+#include "Pack.h"
+#include "Images.h"
+#include <math.h>
 
-Pixels GRP::grp_decompress(const u8 *framedata, int size, int width, int height, GRP_FRAME_HEADER header, u8 transindex) {
-	Pixels pixels(width,height,transindex);
-	for (int y = 0; y < header.lines; y++) {
-		int ty = header.yoffset + y;
-		u16 offset;
-		unpack(framedata + sizeof(u16)*y, size-sizeof(u16)*y, "<S", &offset);
-		const u8 *cur = framedata + offset;
-		for (int x = 0; x < header.linewidth;) {
-			int tx = header.xoffset + x;
-			u8 cmd = *cur;
-			cur++;
-			if (cmd & 0x80) {
-				int count = cmd-0x80;
-				memset(pixels.pixels+tx+ty*width, transindex, count);
-				x += count;
-			} else if (cmd & 0x40) {
-				int count = cmd-0x40;
-				memset(pixels.pixels+tx+ty*width, *cur, count);
-				x += count;
-				cur++;
-			} else {
-				int count = cmd;
-				memcpy(pixels.pixels+tx+ty*width, cur, count);
-				x += count;
-				cur += count;
-			}
-		}
+
+u8 RLE_NONE_FUNC(u8 draw, Point<u32> point, Pixels pixels, __unused void *context) {
+	return draw;
+}
+
+u8 RLE_NORMAL_FUNC(u8 draw, Point<u32> point, Pixels pixels, void *playerContext) {
+	if (playerContext != nullptr && 8 <= draw && draw <= 15) {
+		RLE_NORMAL_CONTEXT *context = (RLE_NORMAL_CONTEXT *)playerContext;
+		u8 player = min((u8)context->player, (u8)floor(context->tunit.size.width / 8.0 - 1));
+		return context->tunit.get({(u32)player*8 + draw-8, 0});
 	}
-	return pixels;
+	return draw;
 }
 
-unsigned char* GRP::grp_compress(Pixels pixels, int &size, GRP_FRAME_HEADER *header, unsigned char transindex) {
-	return NULL;
-}
+#pragma pack(push, 1)
+struct GRP_HEADER {
+	u16 frames;
+	Size<u16> size;
+};
+#pragma pack(pop)
 
-void GRP::open_file(const char *filename, bool compressed, unsigned char transindex) {
+
+GRP::GRP(const char *filename, bool compressed)
+	: compressed(compressed)
+{
 	ifstream file(filename, ios::binary);
 	if (!file.is_open()) {
 		SCMSError err("Open", "Could not open file '%s'", filename);
 		throw err;
 	}
 	file.seekg(0, ios::end);
-	int size = file.tellg();
+	this->length = file.tellg();
 	file.seekg(0);
-	u8 buffer[size];
-	file.read((char *)buffer, size);
+	this->grp = new u8[this->length];
+	file.read((char *)this->grp, this->length);
 	file.close();
-	try {
-		this->open_data(buffer, size, compressed, transindex);
-	} catch (exception) {
-		throw;
-	}
 }
 
-void GRP::open_data(const u8 *buffer, int size, bool compressed, unsigned char transindex) {
-	if (size < sizeof(u16)*3) {
-		SCMSError err("Open", "Not enough data to be a valid GRP");
-		throw err;
-	}
-	u16 frameCount, width, height;
-	unpack(buffer, size, "<3S", &frameCount, &width, &height);
-	if (frameCount < 1 || frameCount > 2400) {
-		SCMSError err("Open", "Invalid number of frames");
-		throw err;
-	}
-	if (width < 1 || width > 256 || height < 1 || height > 256) {
-		SCMSError err("Open", "Invalid number of frames");
-		throw err;
-	}
-	if (size < sizeof(u16)*3+(sizeof(u8)*4+sizeof(u32))*frameCount) {
-		SCMSError err("Open", "Not enough data to be a valid GRP");
-		throw err;
-	}
-	const u8 *cur = buffer + sizeof(u16)*3;
-	int remaining = size - sizeof(u16)*3;
-	GRP_FRAME_HEADER header;
-	this->frames.clear();
-	for (int f = 0; f < frameCount; f++) {
-		unpack(cur, remaining, "<[4CL]", &header);
-		if (header.framedata > size) {
-			SCMSError err("Open", "Not enough data to be a valid GRP");
-			throw err;
-		}
-		if (header.xoffset + header.linewidth > width) {
-			header.linewidth = width - header.xoffset;
-		}
-		if (header.yoffset + header.lines > height) {
-			header.lines = height - header.yoffset;
-		}
-		const u8 *frame = buffer + header.framedata;
-		if (compressed) {
-			Pixels pixels = grp_decompress(frame, size-header.framedata, width, height, header, transindex);
-			this->frames.push_back(pixels.pixels);
-		} else {
-			Pixels pixels(width,height,transindex);
-			Pixels content((u8 *)frame,width,height);
-			pixels.paste(content, header.xoffset, header.yoffset);
-//			unsigned char *pixels = new unsigned char[width*height];
-//			memset(pixels, transindex, width*height);
-//			for (int y = 0; y < header.lines; y++) {
-//				memcpy(pixels+(y+header.yoffset)*width+header.xoffset, frame+y*header.linewidth, header.linewidth);
-//			}
-			this->frames.push_back(pixels.pixels);
-		}
-		cur += sizeof(GRP_FRAME_HEADER);
-		remaining -= sizeof(GRP_FRAME_HEADER);
-	}
-	this->width = width;
-	this->height = height;
-	this->compressed = compressed;
-	this->transindex = transindex;
+GRP::GRP(const u8 *buffer, long long length, bool compressed)
+	: length(length), compressed(compressed)
+{
+	this->grp = new u8[this->length];
+	memcpy(this->grp, buffer, this->length);
 }
 
-Pixels GRP::get_frame(int f) {
-	if (f < 0 || f >= this->frames.size()) {
-		SCMSError err("Internal", "Frame index out of range (got %u, expected number in range 0-%u)", f, this->frames.size());
-		throw err;
-	}
-	Pixels pixels(this->frames[f], this->width, this->height);
-	return pixels;
+u16 GRP::get_frames() {
+	GRP_HEADER *header = (GRP_HEADER *)grp;
+	return header->frames;
+}
+Size<u16> GRP::get_size() {
+	GRP_HEADER *header = (GRP_HEADER *)grp;
+	return header->size;
 }
 
-void GRP::set_frame(int f, Pixels pixels) {
-	if (f < 0 || f >= this->frames.size()) {
-		SCMSError err("Internal", "Frame index out of range (got %u, expected number in range 0-%u)", f, this->frames.size());
+static const u8 TRANSPARENT = 0x80;
+static const u8 REPEATING = 0x40;
+
+void GRP::draw_frame(u16 f, Point<s32> point, Pixels pixels, RLE_FUNC rleFunction, void *rleContext) {
+	if (f < 0 || f >= this->get_frames()) {
+		SCMSError err("Internal", "Frame index out of range (got %u, expected number in range 0-%u)", f, this->get_frames());
 		throw err;
 	}
-#warning CHECK FRAME SIZE
-	this->frames[f] = pixels.pixels;
+	
+	GRP_FRAME_HEADER *header = (GRP_FRAME_HEADER *)(grp + sizeof(GRP_HEADER) + sizeof(GRP_FRAME_HEADER) * f);
+	point.x += header->rect.origin.x;
+	point.y += header->rect.origin.y;
+	if (point.x+header->rect.size.width < 0 || point.x > pixels.size.width || point.y+header->rect.size.height < 0 || point.y > pixels.size.height) {
+		return;
+	}
+	
+	s32 startY = 0;
+	if (point.y < 0) {
+		startY = -point.y;
+		point.y = 0;
+	}
+	u32 endX = point.x + min((u32)header->rect.size.width, pixels.size.width - point.x);
+	u32 height = min((u32)header->rect.size.height, pixels.size.height - point.y);
+	
+	u16 *lineOffsets = (u16 *)(grp + header->framedataOffset);
+	for (u32 line = startY, y = point.y; line < height; line++, y++) {
+		u8 *lineData = (u8 *)lineOffsets + lineOffsets[line];
+		// TODO: Uncompressed
+		for (s32 x = point.x, lineOffset = 0; x < endX;) {
+			if (lineData[lineOffset] & TRANSPARENT) {
+				x += lineData[lineOffset++] & (TRANSPARENT-1);
+			} else if (lineData[lineOffset] & REPEATING) {
+				u8 repeat = lineData[lineOffset++] & (REPEATING-1);
+				repeat = min((u32)repeat, pixels.size.width-x);
+				u8 index = lineData[lineOffset++];
+				while (repeat--) {
+					if (x >= 0) {
+						pixels.set({(u32)x,y}, rleFunction(index, {(u32)x,y}, pixels, rleContext));
+					}
+					x++;
+				}
+			} else {
+				u8 length = lineData[lineOffset++];
+				length = min((u32)length, pixels.size.width-x);
+				while (length--) {
+					if (x >= 0) {
+						pixels.set({(u32)x,y}, rleFunction(lineData[lineOffset], {(u32)x,y}, pixels, rleContext));
+					}
+					lineOffset++;
+					x++;
+				}
+			}
+		}
+	}
 }

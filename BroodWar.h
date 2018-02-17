@@ -10,7 +10,7 @@
 
 namespace StarCraft {
 	namespace Player {
-		enum : u8 {
+		enum ENUM : u8 {
 			P1,
 			P2,
 			P3,
@@ -717,3 +717,4 @@ namespace BroodWar {
 		};
 	}
 }
+namespace BW = BroodWar;

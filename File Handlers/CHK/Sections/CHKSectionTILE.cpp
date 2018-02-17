@@ -17,7 +17,7 @@
 const CHKRequirements CHKSectionTILE::Requirements = {CHKVer::None, CHKGameMode::None};
 void CHKSectionTILE::load_data(const u8 *data, u32 size) {
 	CHKSectionDIM *dims = this->chk->get_section<CHKSectionDIM>();
-	u32 mapSize = dims->get_width() * dims->get_height();
+	u32 mapSize = dims->get_size().area();
 	this->map = new CHKTile[mapSize];
 	memcpy(this->map, data, sizeof(CHKTile) * std::min(mapSize,size));
 	if (size < mapSize) {
@@ -26,12 +26,12 @@ void CHKSectionTILE::load_data(const u8 *data, u32 size) {
 }
 u8* CHKSectionTILE::save_data(u32 &size) {
 	CHKSectionDIM *dims = chk->get_section<CHKSectionDIM>();
-	size = sizeof(u16) * (dims->get_width() * dims->get_height());
+	size = sizeof(u16) * dims->get_size().area();
 	u8 *buffer = new u8[size];
 	memcpy(buffer, this->map, size);
 	return buffer;
 }
 CHKTile CHKSectionTILE::get_tile(int x, int y) {
 	CHKSectionDIM *dims = chk->get_section<CHKSectionDIM>();
-	return *(this->map + y * dims->get_width() + x);
+	return *(this->map + y * dims->get_size().width + x);
 }

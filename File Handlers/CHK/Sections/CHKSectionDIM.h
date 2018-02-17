@@ -10,12 +10,10 @@
 
 #include "CHKSection.h"
 #include "Types.h"
+#include "Geometry.h"
 
 class CHKSectionDIM : public CHKSection {
-	struct {
-		u16 width;
-		u16 height;
-	} size;
+	Size<u16> size;
 public:
 	static const u32 ID = L('DIM ');
 	static const CHKRequirements Requirements;
@@ -36,8 +34,8 @@ public:
 	void load_data(const u8 *data, u32 size);
 	u8* save_data(u32 &size);
 	
-	u16 get_width()
-		{ return this->size.width; }
-	u16 get_height()
-		{ return this->size.height; }
+	Size<u16> get_size()
+		{ return this->size; }
+	void set_size(Size<u16> size)
+		{ this->size = size; }
 };

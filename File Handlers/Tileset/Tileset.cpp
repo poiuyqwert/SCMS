@@ -212,28 +212,28 @@ void DDData::open_data(const u8 *buffer, int size) {
 }
 
 Pixels Tileset::get_minitile(unsigned int minitile, bool flipped) {
-	Pixels pixels(8,8);
+	Pixels pixels({8,8});
 	VR4Minitile tile = this->vr4->get_minitile(minitile);
 	if (flipped) {
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				pixels.pixels[y*pixels.width+7-x] = tile.pixels[y][x];
+				pixels.pixels[y*pixels.size.width+7-x] = tile.pixels[y][x];
 			}
 		}
 	} else {
-		Pixels toPaste((unsigned char *)tile.pixels,8,8);
+		Pixels toPaste((unsigned char *)tile.pixels,{8,8});
 		pixels.paste(toPaste);
 	}
 	return pixels;
 }
 
 Pixels Tileset::get_megatile(unsigned int megatile) {
-	Pixels pixels(32,32);
+	Pixels pixels({32,32});
 	VX4Megatile info = this->vx4->get_megatile(megatile);
-	for (int m = 0; m < 16; m++) {
+	for (s32 m = 0; m < 16; m++) {
 		VX4MinitileRef ref = info.minitiles[m];
 		Pixels minitile = this->get_minitile(ref.minitile, ref.flipped);
-		pixels.paste(minitile, (m%4)*8, (m/4)*8);
+		pixels.paste(minitile, {(m%4)*8, (m/4)*8});
 		delete minitile.pixels;
 	}
 	return pixels;

@@ -42,6 +42,8 @@ public:
 	static const u32 ID = L('MRGN');
 	static const CHKRequirements Requirements;
 	
+	static const int AnywhereID = 63;
+	
 	CHKSectionMRGN(CHK *chk);
 	
 	u32 sectionID()
@@ -54,4 +56,6 @@ public:
 		{ return this->locations[n]; }
 	void set_location(int n, CHKLocation location)
 		{ this->locations[n] = location; }
+	
+	int max_locations();
 };

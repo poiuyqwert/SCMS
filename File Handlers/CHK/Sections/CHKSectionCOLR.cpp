@@ -10,6 +10,8 @@
 
 #include <string>
 
+u8 CHKSectionCOLR::DEFAULTS[SC::Player::COUNT_PLAYABLE] = {0,1,2,3,4,5,6,7};
+
 const CHKRequirements CHKSectionCOLR::Requirements = {CHKVer::None, CHKGameMode::None};
 CHKSectionCOLR::CHKSectionCOLR(CHK *chk)
 	: CHKSection(chk)
